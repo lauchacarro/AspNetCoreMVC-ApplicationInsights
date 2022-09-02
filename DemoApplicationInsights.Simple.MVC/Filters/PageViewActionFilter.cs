@@ -17,7 +17,7 @@ namespace DemoApplicationInsights.Simple.MVC.Filters
         {
             base.OnActionExecuted(context);
 
-            if(context.HttpContext.Request.Method == "GET")
+            if (context.HttpContext.Request.Method == "GET")
             {
                 PageViewTelemetry pageViewTelemetry = new(context.HttpContext.Request.Path);
 
@@ -28,7 +28,7 @@ namespace DemoApplicationInsights.Simple.MVC.Filters
                 _telemetryClient.TrackPageView(pageViewTelemetry);
             }
 
-            
+
         }
     }
 }
