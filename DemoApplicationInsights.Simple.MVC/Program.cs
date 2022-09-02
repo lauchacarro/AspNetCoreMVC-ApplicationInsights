@@ -1,6 +1,7 @@
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights;
 using DemoApplicationInsights.Simple.MVC.Filters;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,15 +10,12 @@ builder.Services.AddControllersWithViews(o =>
 {
     o.Filters.Add<PageViewActionFilterAttribute>();
 });
-builder.Services.AddApplicationInsightsTelemetry(o =>
-{
-    o.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
-});
 
-builder.Services.AddSingleton(typeof(TelemetryClient), new TelemetryClient(new TelemetryConfiguration()));
+builder.Services.AddApplicationInsightsTelemetry();
+
 
 builder.Services.AddHealthChecks()
-    .AddApplicationInsightsPublisher(builder.Configuration["ApplicationInsights:InstrumentionKey"]);
+    .AddApplicationInsightsPublisher();
 
 var app = builder.Build();
 
